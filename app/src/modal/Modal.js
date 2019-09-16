@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { actionGallerySetIndex } from "../gallery/actionGallery";
-import "./modal.scss"
+import { ArrowUpward, ArrowDownward } from '@material-ui/icons';
+import "./modal.scss";
 
 class ModalDOM extends React.Component {
     render () {
@@ -11,14 +12,33 @@ class ModalDOM extends React.Component {
             return null;
         }
 
-        const {title} = data[activeIndex];
-        console.log("title", title)
+        const {title, link, ups, downs, score} = data[activeIndex];
+        const imgStyle = {maxHeight: (window.innerHeight - 150)+'px'}
 
         return (
             <div className={"modal"}>
                 <div className="modal-content">
-                    <span className="close" onClick={onClose}>&times;</span>
-                    <p>Some text in the Modal..</p>
+                    <div className="image-container">
+                        <div className="title">{title}</div>
+                        <img alt="Loading..." src={link} className="image" style={imgStyle}/>
+                        <div className="footer">
+                            <div className="stats">
+                                <div className="ud">
+                                    <div>{ups}</div>
+                                    <ArrowUpward/>
+                                </div>
+                                <div className="ud">
+                                    <div>{downs}</div>
+                                    <ArrowDownward/>
+                                </div>
+                                <div className="ud">
+                                    <div>{score}</div>
+                                    <div> &nbsp;Points</div>
+                                </div>
+                            </div>
+                            <button className="close" onClick={onClose}>Close</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
