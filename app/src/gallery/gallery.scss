@@ -1,0 +1,27 @@
+.gallery {
+    display: flex;
+    justify-content: center;
+
+    .gallery-container{
+        width: 95%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    
+        .gallery-cols{
+            flex: 24%;
+            max-width: 24%;
+            margin: 0 5px;
+
+            @media screen and (max-width: 800px) {
+                flex: 46%;
+                max-width: 46%;
+            }
+            @media screen and (max-width: 600px) {
+                flex: 46%;
+                max-width: 46%;
+            }
+        }
+    }
+}

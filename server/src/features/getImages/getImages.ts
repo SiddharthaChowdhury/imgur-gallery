@@ -24,11 +24,49 @@ export const getImages = (req: Request, res: Response) => {
         if (error) throw error;
 
         if(response.statusCode === 200) {
+            try {
+                const imageData = JSON.parse(respBody);
+                const data: Array<any> = [];
+                imageData.data.forEach((item: any) => {
+                    const post: any = {
+                        title: item.title || '',
+                        ups: item.ups || 0,
+                        downs: item.downs || 0,
+                        score: item.score || 0
+                    };
+                    
+                    if(item.images && item.images.length > 0) {
+                        item.images.forEach((element: any) => {
+                            if (element.type.indexOf('image') === 0){
+                                data.push({
+                                    ...post,
+                                    link: element.link,
+                                    description: element.description,
+                                    height: element.height,
+                                    width: element.width
+                                })
 
-            const data = JSON.parse(respBody).data;
+                            } 
+                            // else if (element.type.indexOf('video') === 0 && element.gifv){
+                            //     data.push({
+                            //         ...post,
+                            //         link: element.gifv,
+                            //         description: element.description,
+                            //         height: element.height,
+                            //         width: element.width
+                            //     })
+                            // }
+                        });
+                    }
+                });
 
-            res.status(200);
-            return res.json({data});
+                res.status(200);
+                return res.json({data});
+
+            } catch(error) {
+                res.status(500);
+                return res.json({error: "Error parsing data from Imgur"})
+            }
         }
 
         res.status(500);
