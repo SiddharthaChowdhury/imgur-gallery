@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { thunkActionGalleryRequest } from "./thunkGallery";
+import { actionGallerySetIndex } from "./actionGallery";
 import Grid from '@material-ui/core/Grid';
+import {Modal} from "../modal/Modal";
+
 import "./gallery.scss";
 
 class GalleryDOM extends React.PureComponent {
@@ -20,27 +23,31 @@ class GalleryDOM extends React.PureComponent {
         const {col1, col2, col3, col4} = this.getCols()
 
         return (
-            <Grid item className="gallery">
-                <Grid item className={"gallery-container"}>
-                    <Grid item xs={6} sm={6} md={3} lg={3} className="gallery-cols">
-                        {col1 && col1.map(this.getImageComponent)}
-                    </Grid>
-                    <Grid item xs={6} sm={6} md={3} lg={3} className="gallery-cols">
-                        {col2 && col2.map(this.getImageComponent)}
-                    </Grid>
-                    <Grid item xs={6} sm={6} md={3} lg={3} className="gallery-cols">
-                        {col3 && col3.map(this.getImageComponent)}
-                    </Grid>
-                    <Grid item xs={6} sm={6} md={3} lg={3} className="gallery-cols">
-                        {col4 && col4.map(this.getImageComponent)}
+            <>
+                <Grid item className="gallery">
+                    <Grid item className={"gallery-container"}>
+                        <Grid item xs={6} sm={6} md={3} lg={3} className="gallery-cols">
+                            {col1 && col1.map(this.getImageComponent)}
+                        </Grid>
+                        <Grid item xs={6} sm={6} md={3} lg={3} className="gallery-cols">
+                            {col2 && col2.map(this.getImageComponent)}
+                        </Grid>
+                        <Grid item xs={6} sm={6} md={3} lg={3} className="gallery-cols">
+                            {col3 && col3.map(this.getImageComponent)}
+                        </Grid>
+                        <Grid item xs={6} sm={6} md={3} lg={3} className="gallery-cols">
+                            {col4 && col4.map(this.getImageComponent)}
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
+                <Modal/>
+            </>
         );
     }
 
     getCols = () => {
         const {images} = this.props;
+        const imageArr = images ? [...images] : []
 
         const cols = {
             col1: null,
@@ -48,32 +55,34 @@ class GalleryDOM extends React.PureComponent {
             col3: null,
             col4: null
         }
-        if(images.length > 4) {
-            const each = Math.floor(images.length / 4);
+        if(imageArr.length > 4) {
+            const each = Math.floor(imageArr.length / 4);
 
-            cols.col1 = images.splice(0, each)
-            cols.col2 = images.splice(0, each);
-            cols.col3 = images.splice(0, each);
-            cols.col4 = images.splice(0, each);
+            cols.col1 = imageArr.splice(0, each)
+            cols.col2 = imageArr.splice(0, each);
+            cols.col3 = imageArr.splice(0, each);
+            cols.col4 = imageArr.splice(0, each);
 
-            if(images.length > 0) {
+            if(imageArr.length > 0) {
                 cols.col1 = [
                     ...cols.col1,
-                    ...images
+                    ...imageArr
                 ]
             }
 
         } else {
-            cols.col1 = images || [];
+            cols.col1 = imageArr || [];
         }
 
         return cols;
     }
 
-    getImageComponent = ({link, height, width, title}, index) => {
+    getImageComponent = ({link, height, width, title, index}, key) => {
+        const {onImageSelect} = this.props
         const paddingTop = (height / width * 100)+"%";
+
         return (
-            <div key={index} className={"image-container"}>
+            <div key={key} className={"image-container"} onClick={() => onImageSelect(index)}>
                 <div className="label-title">{title}</div>
                 <div style={{
                     paddingTop, 
@@ -94,7 +103,8 @@ const mapState = (state) => ({
     images: state.gallery.data
 })
 const mapDispatch = (dispatch) => ({
-    onFetchGallery: () => dispatch(thunkActionGalleryRequest({}))
+    onFetchGallery: () => dispatch(thunkActionGalleryRequest({})),
+    onImageSelect: (index) => dispatch(actionGallerySetIndex(index))
 })
 
 export const Gallery = connect(mapState, mapDispatch)(GalleryDOM)

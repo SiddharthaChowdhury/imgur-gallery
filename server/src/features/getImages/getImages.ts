@@ -20,6 +20,7 @@ export const getImages = (req: Request, res: Response) => {
         }
     };
 
+    let index = 0;
     request.get(options, (error: any, response: request.Response, respBody: any) => {
         if (error) throw error;
 
@@ -43,7 +44,8 @@ export const getImages = (req: Request, res: Response) => {
                                     link: element.link,
                                     description: element.description,
                                     height: element.height,
-                                    width: element.width
+                                    width: element.width,
+                                    index: index++
                                 })
 
                             } 

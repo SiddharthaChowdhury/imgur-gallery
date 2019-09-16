@@ -1,12 +1,14 @@
-import { TYPE_GALLERY_RESPONSE } from "./actionGallery";
+import { TYPE_GALLERY_RESPONSE, TYPE_GALLERY_IMAGE_SELECT } from "./actionGallery";
 
 const initialState = {
-    data: null
+    data: null,
+    activeIndex: null
 }
 
 export default (state = initialState, action) => {
     switch (action.type) {
         case TYPE_GALLERY_RESPONSE:
+            console.log("affecting")
             if(state.data) {
                 return {
                     ...state,
@@ -22,6 +24,12 @@ export default (state = initialState, action) => {
                 data: action.data
             }
         
+        case TYPE_GALLERY_IMAGE_SELECT:
+            return {
+                ...state,
+                activeIndex: action.indexValue
+            }
+
         default:
             return state;
 
