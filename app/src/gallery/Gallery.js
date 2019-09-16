@@ -70,20 +70,22 @@ class GalleryDOM extends React.PureComponent {
         return cols;
     }
 
-    getImageComponent = ({link, height, width}, index) => {
+    getImageComponent = ({link, height, width, title}, index) => {
         const paddingTop = (height / width * 100)+"%";
         return (
-            <div key={index} style={{
-                paddingTop, 
-                width: "100%", 
-                backgroundImage: "url('"+link+"')", 
-                backgroundSize: "contain" ,
-                backgroundRepeat: "no-repeat",
-                height: 0,
-                borderRadius: '10px',
-                backgroundColor: '#FAFAFA',
-                marginTop: '10px'
-            }}></div>
+            <div key={index} className={"image-container"}>
+                <div className="label-title">{title}</div>
+                <div style={{
+                    paddingTop, 
+                    width: "100%", 
+                    backgroundImage: "url('"+link+"')", 
+                    backgroundSize: "contain",
+                    backgroundRepeat: "no-repeat",
+                    height: 0,
+                    borderRadius: '10px',
+                    backgroundColor: '#FAFAFA'
+                }}></div>
+            </div>
         )
     }
 }
