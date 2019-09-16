@@ -10,7 +10,7 @@ export const getImages = (req: Request, res: Response) => {
         window	:	Change the date range of the request if the section is top. Accepted values are day | week | month | year | all. Defaults to day
     */
 
-    const url = `https://api.imgur.com/3/gallery/${section}/${sort}/${window}/${page || 1}?showViral=${!!showViral}&mature=false&album_previews=false`;
+    const url = `https://api.imgur.com/3/gallery/${section || 'hot'}/${sort || 'viral'}/${window || 'day'}/${page || 1}?showViral=${!!showViral}&mature=false&album_previews=false`;
 
     const options: request.Options = {
         method: 'GET',
@@ -25,7 +25,7 @@ export const getImages = (req: Request, res: Response) => {
 
         if(response.statusCode === 200) {
 
-            const data = respBody.data;
+            const data = JSON.parse(respBody).data;
 
             res.status(200);
             return res.json({data});
