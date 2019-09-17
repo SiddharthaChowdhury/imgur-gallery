@@ -8,20 +8,7 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case TYPE_GALLERY_RESPONSE:
-            if(state.data) {
-                return {
-                    ...state,
-                    data: [
-                        ...state.data,
-                        ...action.data
-                    ]
-                }
-            } 
-
-            return {
-                ...state,
-                data: action.data
-            }
+            return reducerGalleryResp(state, action)
         
         case TYPE_GALLERY_IMAGE_SELECT:
             return {
@@ -32,5 +19,33 @@ export default (state = initialState, action) => {
         default:
             return state;
 
+    }
+}
+
+const reducerGalleryResp = (state, action) => {
+    if(state.data) {
+        let currentIndex = state.data.length;
+        const newLot = action.data.map((imgObj) => ({
+            ...imgObj,
+            index: currentIndex++
+        }))
+        return {
+            ...state,
+            data: [
+                ...state.data,
+                ...newLot
+            ]
+        }
+    }
+
+    let currentIndex = 0;
+    const newLot = action.data.map((imgObj) => ({
+        ...imgObj,
+        index: currentIndex++
+    }))
+
+    return {
+        ...state,
+        data: newLot
     }
 }
