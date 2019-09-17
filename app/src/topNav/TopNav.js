@@ -13,9 +13,9 @@ class TopNavDOM extends React.PureComponent {
                     <GCheckbox checked={true} label="Show viral"/>
                     <div className="section">
                         <GRadioBtn config={[
-                            {checked: true, label: "Hot", styles: {marginLeft: "15px"}},
-                            {checked: false, label: "Top", styles: {marginLeft: "15px"}},
-                            {checked: false, label: "User", styles: {marginLeft: "15px"}},
+                            {checked: true, label: "Hot", styles: {marginLeft: "15px"}, value: "hot"},
+                            {checked: false, label: "Top", styles: {marginLeft: "15px"}, value: "top"},
+                            {checked: false, label: "User", styles: {marginLeft: "15px"}, value: "user"},
                         ]}/>
                     </div>
                 </div>
