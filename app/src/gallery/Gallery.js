@@ -10,7 +10,7 @@ import "./gallery.scss";
 class GalleryDOM extends React.PureComponent {
     componentDidMount () {
         const {onFetchGallery} = this.props;
-        onFetchGallery({...this.props.filter});
+        onFetchGallery();
     }
 
     render () {
@@ -104,7 +104,7 @@ const mapState = (state) => ({
     filter: state.filter
 })
 const mapDispatch = (dispatch) => ({
-    onFetchGallery: (filter) => dispatch(thunkActionGalleryRequest(filter)),
+    onFetchGallery: () => dispatch(thunkActionGalleryRequest()),
     onImageSelect: (index) => dispatch(actionGallerySetIndex(index))
 })
 

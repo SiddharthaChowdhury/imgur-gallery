@@ -1,8 +1,12 @@
 import axios from 'axios';
 import { actionGalleryRes } from "./actionGallery";
 
-export const thunkActionGalleryRequest = config => dispatch => {
-    axios.post('http://localhost:8000/gallery', {...config}, {
+export const thunkActionGalleryRequest = () => (dispatch, getState) => {
+
+    const {filter} = getState();
+    console.log("with filter ", filter)
+
+    axios.post('http://localhost:8000/gallery', {...filter}, {
         headers: {
             'content-type': 'application/json'
         },
