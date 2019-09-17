@@ -1,20 +1,44 @@
 .topNav {
-    height: 30px;
-    padding: 10px 0;
+    height: 50px;
+    // padding: 10px 0;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.96);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     
-    .options{
+    .options {
         display: flex;
         align-items: center;
-        flex-direction: row;
-        justify-content: center;
-
+        
         .section{
             display: flex;
+        }
+    }
+
+    .moreOptions {
+        display: flex;
+        align-items: center;
+
+        .sort {
+            display: flex;
+            align-items: center;
+
+            label {
+                margin-right: 5px;
+            }
+        }
+
+        .window {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+            label {
+                margin-right: 5px;
+            }
         }
     }
 }

@@ -2,14 +2,15 @@ import React from "react";
 import "./checkbox.scss";
 
 export const GCheckbox = (props) => {
-    const {checked, label, styles, onChange, name} = props.config;
+    const {checked, label, styles, onChange} = props.config;
     const [isChecked, setChecked] = React.useState(checked);
 
     const handleChange = (e) => {
-        setChecked(!isChecked);
+        const status = !isChecked;
+        setChecked(status);
 
         if(onChange) {
-            onChange({name: isChecked});
+            onChange(status);
         }
     }
 
