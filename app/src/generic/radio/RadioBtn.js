@@ -20,6 +20,10 @@ export const GRadioBtn = (props) => {
         })
 
         setActive(modifiedConf);
+
+        if (props.onChange) {
+            props.onChange(e.target.value)
+        }
     }
 
     return (
