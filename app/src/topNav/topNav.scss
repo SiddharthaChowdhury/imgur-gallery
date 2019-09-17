@@ -17,6 +17,14 @@
         .section{
             display: flex;
         }
+
+        .moreBtn{
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
     }
 
     .moreOptions {
@@ -39,6 +47,11 @@
             label {
                 margin-right: 5px;
             }
+        }
+
+        .backBtn{
+            margin-left: 10px;
+            cursor: pointer;
         }
     }
 }

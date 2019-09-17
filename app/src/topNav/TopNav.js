@@ -6,11 +6,13 @@ import {GSelect} from "../generic/select/Select";
 import {actionUpdateFilter} from "./actionFilter";
 import {actionLoadingSet} from "../loading/actionLoading";
 import {thunkActionGalleryRequest} from "../gallery/thunkGallery";
+import { AddBoxOutlined, ArrowBack } from '@material-ui/icons';
 
 import "./topNav.scss";
 
 
 class TopNavDOM extends React.PureComponent {
+    state = {moreOptions: false};
     render () {
         const {section, sort, window, showViral} = this.props.filter;
 
@@ -33,41 +35,52 @@ class TopNavDOM extends React.PureComponent {
 
         return (
             <div className="topNav" id="topNav">
-                <div className={"options"}>
-                    <GCheckbox config={{
-                        checked: showViral,
-                        label: "Viral",
-                        styles: {},
-                        onChange: this.handleViralChange
-                    }}/>
-                    <div className="section">
-                        <GRadioBtn config={[
-                            {checked: section === "hot", label: "Hot", styles: {marginLeft: "15px"}, value: "hot"},
-                            {checked: section === "top", label: "Top", styles: {marginLeft: "15px"}, value: "top"},
-                            {checked: section === "user", label: "User", styles: {marginLeft: "15px"}, value: "user"},
-                        ]} onChange={this.handleSectionChange}/>
+                {!this.state.moreOptions && 
+                    <div className={"options"}>
+                        <GCheckbox config={{
+                            checked: showViral,
+                            label: "Viral",
+                            styles: {},
+                            onChange: this.handleViralChange
+                        }}/>
+                        <div className="section">
+                            <GRadioBtn config={[
+                                {checked: section === "hot", label: "Hot", styles: {marginLeft: "15px"}, value: "hot"},
+                                {checked: section === "top", label: "Top", styles: {marginLeft: "15px"}, value: "top"},
+                                {checked: section === "user", label: "User", styles: {marginLeft: "15px"}, value: "user"},
+                            ]} onChange={this.handleSectionChange}/>
+                        </div>
+                        <div className="moreBtn" onClick={() => this.handleMoreMenu(true)}>
+                            <AddBoxOutlined/>
+                            <div></div>
+                        </div>
                     </div>
-                </div>
-                <div className="moreOptions">
-                    <div className="sort">
-                        <label>Sort </label>
-                        <GSelect 
-                            options={sortOptions} 
-                            activeOption={selectedSort}
-                            onChange={this.handleSortChange}
-                            disabled={section !== "user"}
-                        />
+                }
+                {this.state.moreOptions &&
+                    <div className="moreOptions">
+                        <div className="sort">
+                            <label>Sort </label>
+                            <GSelect 
+                                options={sortOptions} 
+                                activeOption={selectedSort}
+                                onChange={this.handleSortChange}
+                                disabled={section !== "user"}
+                            />
+                        </div>
+                        <div className="window">
+                            <label>Window </label>
+                            <GSelect 
+                                options={windowOptions} 
+                                activeOption={selectedWindow}
+                                onChange={this.handleWindowChange}
+                                disabled={section !== "top"}
+                            />
+                        </div>
+                        <div className="backBtn" onClick={() => this.handleMoreMenu(false)}>
+                            <ArrowBack/>
+                        </div>
                     </div>
-                    <div className="window">
-                        <label>Window </label>
-                        <GSelect 
-                            options={windowOptions} 
-                            activeOption={selectedWindow}
-                            onChange={this.handleWindowChange}
-                            disabled={section !== "top"}
-                        />
-                    </div>
-                </div>
+                }
             </div>
         )
     }
@@ -120,6 +133,10 @@ class TopNavDOM extends React.PureComponent {
             this.props.onFilterChange({window: selected.value});
             this.applyFilter()
         }
+    }
+
+    handleMoreMenu = (value) => {
+        this.setState({moreOptions: value})
     }
 
     applyFilter = () => {
