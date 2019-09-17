@@ -6,11 +6,13 @@ import { Provider } from "react-redux";
 import * as serviceWorker from './serviceWorker';
 import store from './config/store';
 import { TopNav } from './topNav/TopNav';
+import { Loading } from "./loading/Loading";
 
 ReactDOM.render(
     <Provider store={store}>
         <TopNav/>
         <Gallery />
+        <Loading/>
     </Provider>
 , document.getElementById('root'));
 

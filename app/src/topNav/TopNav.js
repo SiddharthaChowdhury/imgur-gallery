@@ -4,6 +4,7 @@ import {GCheckbox} from "../generic/checkbox/Checkbox";
 import {GRadioBtn} from "../generic/radio/RadioBtn";
 import {GSelect} from "../generic/select/Select";
 import {actionUpdateFilter} from "./actionFilter";
+import {actionLoadingSet} from "../loading/actionLoading";
 import {thunkActionGalleryRequest} from "../gallery/thunkGallery";
 
 import "./topNav.scss";
@@ -90,7 +91,7 @@ class TopNavDOM extends React.PureComponent {
 
     handleViralChange = (status) => {
         this.props.onFilterChange({showViral: status});
-        this.props.onUpdateGallery()
+        this.applyFilter()
     }
 
     handleSectionChange = (value) => {
@@ -104,21 +105,26 @@ class TopNavDOM extends React.PureComponent {
         }
 
         this.props.onFilterChange(updatedFilter);
-        this.props.onUpdateGallery()
+        this.applyFilter()
     }
 
     handleSortChange = (selected) => {
         if (this.props.filter.section === "user") {
             this.props.onFilterChange({sort: selected.value});
-            this.props.onUpdateGallery()
+            this.applyFilter()
         }
     }
 
     handleWindowChange = (selected) => {
         if(this.props.filter.section === "top") {
             this.props.onFilterChange({window: selected.value});
-            this.props.onUpdateGallery()
+            this.applyFilter()
         }
+    }
+
+    applyFilter = () => {
+        this.props.onUpdateGallery();
+        this.props.onStartLoading();
     }
 }
 
@@ -128,6 +134,7 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch) => ({
     onFilterChange: (filterObj) => dispatch(actionUpdateFilter(filterObj)),
+    onStartLoading: () => dispatch(actionLoadingSet(true)),
     onUpdateGallery: () => dispatch(thunkActionGalleryRequest())
 });
 

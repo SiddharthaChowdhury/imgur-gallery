@@ -17,7 +17,7 @@ class GalleryDOM extends React.PureComponent {
         const {images} = this.props;
 
         if (!images) {
-            return (<div>Please wait...</div>)
+            return null;
         }
 
         const {col1, col2, col3, col4} = this.getCols()
