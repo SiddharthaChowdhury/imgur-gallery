@@ -2,11 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { actionGallerySetIndex } from "../gallery/actionGallery";
 import { ArrowUpward, ArrowDownward } from '@material-ui/icons';
+import { utilDocument } from "../utils/utilDocument";
 import "./modal.scss";
 
 class ModalDOM extends React.Component {
     render () {
-        const {gallery: {data, activeIndex}, onClose} = this.props;
+        const {gallery: {data, activeIndex}} = this.props;
 
         if(activeIndex === null) {
             return null;
@@ -36,12 +37,18 @@ class ModalDOM extends React.Component {
                                     <div> &nbsp;Points</div>
                                 </div>
                             </div>
-                            <button className="close" onClick={onClose}>Close</button>
+                            <button className="close" onClick={this.handleClose}>Close</button>
                         </div>
                     </div>
                 </div>
             </div>
         );
+    }
+
+    handleClose = () => {
+        const {onClose} = this.props;
+        onClose();
+        utilDocument.enableBodyScroll()
     }
 }
 

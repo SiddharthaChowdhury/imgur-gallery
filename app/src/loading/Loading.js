@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
-import "./loading.scss"
+import "./loading.scss";
+import { utilDocument } from "../utils/utilDocument";
 
 class LoadingDOM extends React.Component {
     render () {
@@ -8,9 +9,11 @@ class LoadingDOM extends React.Component {
         console.log("this.props.isLoading", this.props.isLoading)
 
         if(!this.props.isLoading) {
+            utilDocument.enableBodyScroll()
             return null;
         }
 
+        utilDocument.disableBodyScroll()
         return (
             <div className={"modalLoading"}>
                 <div className="modal-content">

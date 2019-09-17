@@ -2,15 +2,39 @@ import React from 'react';
 import { connect } from "react-redux";
 import { thunkActionGalleryRequest } from "./thunkGallery";
 import { actionGallerySetIndex } from "./actionGallery";
+import { actionUpdateFilter } from "../topNav/actionFilter";
+import { actionLoadingSet } from "../loading/actionLoading";
+import { utilDocument } from "../utils/utilDocument";
 import Grid from '@material-ui/core/Grid';
-import {Modal} from "../modal/Modal";
 
 import "./gallery.scss";
 
 class GalleryDOM extends React.PureComponent {
     componentDidMount () {
-        const {onFetchGallery} = this.props;
+        const {onFetchGallery, isLoading} = this.props;
         onFetchGallery();
+
+        const self = this;
+        window.addEventListener('scroll', () => {
+            const {filter: {page}, onFilterChange, onStartLoading} = self.props;
+            const scrollPercent = self.getScrollPercent();
+
+            console.log("scroll", self.getScrollPercent())
+
+            if (!isLoading, scrollPercent > 60) {
+                let nextPage = page + 1;
+                onFilterChange({page: nextPage});
+                onStartLoading();
+                onFetchGallery(true)
+            }
+        })
+    }
+
+    getScrollPercent = () => {
+        const h = document.documentElement;
+        const b = document.body;
+
+        return (h['scrollTop']||b['scrollTop']) / ((h['scrollHeight']||b['scrollHeight']) - h.clientHeight) * 100;
     }
 
     render () {
@@ -40,7 +64,6 @@ class GalleryDOM extends React.PureComponent {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Modal/>
             </>
         );
     }
@@ -78,11 +101,10 @@ class GalleryDOM extends React.PureComponent {
     }
 
     getImageComponent = ({link, height, width, title, index}, key) => {
-        const {onImageSelect} = this.props
         const paddingTop = (height / width * 100)+"%";
 
         return (
-            <div key={key} className={"image-container"} onClick={() => onImageSelect(index)}>
+            <div key={key} className={"image-container"} onClick={() => this.handleImageClick(index)}>
                 <div className="label-title">{title}</div>
                 <div style={{
                     paddingTop, 
@@ -97,15 +119,25 @@ class GalleryDOM extends React.PureComponent {
             </div>
         )
     }
+
+    handleImageClick = (index) => {
+        const {onImageSelect} = this.props
+        onImageSelect(index)
+
+        utilDocument.disableBodyScroll()
+    }
 }
 
 const mapState = (state) => ({
     images: state.gallery.data,
-    filter: state.filter
+    filter: state.filter,
+    isLoading: state.loading,
 })
 const mapDispatch = (dispatch) => ({
-    onFetchGallery: () => dispatch(thunkActionGalleryRequest()),
-    onImageSelect: (index) => dispatch(actionGallerySetIndex(index))
+    onFetchGallery: (isPage) => dispatch(thunkActionGalleryRequest(isPage)),
+    onImageSelect: (index) => dispatch(actionGallerySetIndex(index)),
+    onFilterChange: (filterObj) => dispatch(actionUpdateFilter(filterObj)),
+    onStartLoading: () => dispatch(actionLoadingSet(true)),
 })
 
 export const Gallery = connect(mapState, mapDispatch)(GalleryDOM)

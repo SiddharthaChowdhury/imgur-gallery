@@ -9,10 +9,9 @@ A simple gallery with random images from [Imgur](https://apidocs.imgur.com/?vers
 
 # Getting Started
 
-- First of all! [Register your app with Imgur](vhttps://api.imgur.com/oauth2/addclient). To make Imgur API calls, you will need a "Client_ID" for  **Authorization**. You can get Client_ID by registering your app with [Imgur HERE](https://api.imgur.com/oauth2/addclient). 
-***FYI**: 
+- First of all! [Register your app with Imgur](vhttps://api.imgur.com/oauth2/addclient). To make Imgur API calls, you will need a "Client_ID" for  **Authorization**. You can get Client_ID by registering your app with [Imgur HERE](https://api.imgur.com/oauth2/addclient).  
 
-- While registering you app with Imgur `Authorization callback URL:` in the form can be `#` (need not be a valid URL).
+- **FYI**: While registering you app with Imgur `Authorization callback URL:` in the form can be `#` (need not be a valid URL, for development).
 
 - Once registered keep safe the **"Client_ID"**, we will need it in the next step
 

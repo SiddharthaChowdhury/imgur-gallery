@@ -23,12 +23,13 @@ export default (state = initialState, action) => {
 }
 
 const reducerGalleryResp = (state, action) => {
-    if(state.data) {
+    if(state.data && action.isPage) {
         let currentIndex = state.data.length;
         const newLot = action.data.map((imgObj) => ({
             ...imgObj,
             index: currentIndex++
         }))
+
         return {
             ...state,
             data: [

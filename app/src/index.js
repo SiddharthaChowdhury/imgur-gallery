@@ -7,12 +7,14 @@ import * as serviceWorker from './serviceWorker';
 import store from './config/store';
 import { TopNav } from './topNav/TopNav';
 import { Loading } from "./loading/Loading";
+import { Modal } from "./modal/Modal";
 
 ReactDOM.render(
     <Provider store={store}>
         <TopNav/>
         <Gallery />
         <Loading/>
+        <Modal/>
     </Provider>
 , document.getElementById('root'));
 
