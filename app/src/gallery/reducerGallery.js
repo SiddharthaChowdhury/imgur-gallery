@@ -8,7 +8,6 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case TYPE_GALLERY_RESPONSE:
-            console.log("affecting")
             if(state.data) {
                 return {
                     ...state,

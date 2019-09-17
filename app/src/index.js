@@ -5,9 +5,11 @@ import { Gallery } from "./gallery/Gallery";
 import { Provider } from "react-redux";
 import * as serviceWorker from './serviceWorker';
 import store from './config/store';
+import { TopNav } from './topNav/TopNav';
 
 ReactDOM.render(
     <Provider store={store}>
+        <TopNav/>
         <Gallery />
     </Provider>
 , document.getElementById('root'));
